@@ -1,0 +1,60 @@
+Jquert  笔记
+1.DOM对象与jquery 对象的区别
+   Dom(文档对象模型) 每一份Dom 都可以标识成一颗树，例如一个html的结构，可以通过原生javaScript获取元素节点并可以使用JavaScript的方法
+   jquery 对象就是通过jquery包装Dom对象后产生的对象，它是独有的，他不能使用原生javascript中的方法。
+
+在编写jquery代码时，注意各自专属的方法！
+
+2、jquery与dom 对象互相转换
+     jquery提供了两种转换成dom对象的方法,即【index】和get(index)
+     例如：var $aa = $("#aa");   jquery 对象    var cc = $aa[0];或  cc = $aa.get(0); Dom 对象
+     dom转换为jquery对象及用$() 将获取的dom对象封装就可以了；
+3、解决jquery和其他js库的冲突
+     a)  若jquery.js 在其他js文件之后引入则用以下方法来解决冲突
+      可以调用jquery.noConflict()函数将变量$的控制权移交给其他的js库
+      例如：jquery.noConflict();  将变量$的控制权移交给其他的js库
+	jquery(function(){
+		//正常使用jquery方法
+	})
+       也可以自定义一个jquery变量代替$变量
+	例如： var $jqueryObj = jquery.noConflict();
+       若不想jquery自定义或者移交控制权，那么还可以首先声明jquery.noConflict(); 后使用jquery的带$变量参数的匿名函数
+      b) 若jquery.js在其他js文件引入之前引入则直接用jquery的方法即可。
+4、jquery 选择器      （特殊字符需要转译）  （FIXME 多看看）
+     了解css 选择器以及选择方式即可；
+      分类记忆选择器：  基本选择器， 层次选择器，  过滤选择器， 表单选择器（具体到网上查吧！）
+      例如：$('ul li:gt(5):not(:last)') 的意思是先获取索引大于5的li元素然后去掉最后一个元素
+5、jquery中的dom操作
+     一般来说dom操作可以分为三方面  Dom Core（核心）  HTML-DOM    和CSS-DOM
+     
+     HTML-DOM 提供了一些更简明的几号来描述各种HTML元素的属性，相比较而言HTML-DOM 的代码通常比较简短，不过他只能用来处理web文档
+     CSS-DOM主要作用是获取和设置style对象的各种属性，通过改变style对象的各种属性，可以使网页呈现出各种不同的效果
+
+6、创建节点（FIXME  多看看）
+
+
+
+7、jquery 时间
+     加载DOM    ----执行时机    window.onload 方法是在网页中所有的元素（包括元素的所有关联文件） 完全加载到浏览器后才执行，即 JavaScript此时才可以访问网页中的任何元素，而通过jquery中的$（document）.ready()方法注册的时间处理程序，在DOM完全就绪时就可以被调用，此时，网页的所有元素对Jquery而言都是可以访问的，但是，这并不意味这这些元素关联的文件都已经下载完毕
+	简而言之；就是前者是需要网页所有资源就绪，而后者当DOM就绪时就可以了！
+jquer的load方法会在元素的onload时间中丙丁一个处理函数，如果处理函数绑定给window对象，则会在所有内容加载完毕后触发，若处理函数绑定在元素上，则会在元素的内容加载完毕后触发
+可以把this用$()封装成jquey对象从而使用jquery的方法
+    关注下这个用法（可以用于判断）（FIXME）   :visible是可见的意思,相关用法还有:hidden(隐藏),:first(第一个),:last(最后一个)   
+
+8、改变绑定时间的类型  
+      思路：在事件中更改节点的绑定事件
+9、合成事件
+      a) hover() 方法  hover(enter,leave)  用于模拟光标悬停事件。移上执行enter函数，移下执行leave函数
+      b) toggle(fn1,fn2,……fnN)  用于模拟鼠标连续点击事件，根据鼠标点击次数逐次调用不同的函数
+10、事件冒泡
+       之所以称之为冒泡，就是因为事件会按照DOM的层次结构向水泡一样不断向上直至顶端
+       解决办法在程序中使用事件对象非常简单，只需要为函数添加一个参数，
+	$("element").bind("click",fn(){
+		//Context
+	 });
+     停止事件冒泡  只要在jquey中提供了event.stopPropagation()方法来停止事件冒泡； 
+      阻止默认行为   event.preventDefault(); 阻止事件继续执行
+      事件不捕获是从最外层开始的，然后在到最里层元素。（jquery不支持事件捕获，若要捕获则可以用原生的JavaScript）
+
+
+
